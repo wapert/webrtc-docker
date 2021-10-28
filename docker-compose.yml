@@ -1,0 +1,31 @@
+version: "3.4"
+
+services:
+  p2p-server:
+    build: ./p2p-server
+    image: webrtc/p2p-server
+    volumes:
+      - ./p2p-server/configs:/root/configs
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - rtc_net
+
+  turn-server:
+    build: ./turn-server
+    image: webrtc/turn-server
+    volumes:
+      - ./turn-server/configs:/root/configs
+      - ./turn-server/web:/root/web  
+    ports:
+      - "9000:9000"
+      - "19302:19302"
+    networks:
+      - rtc_net       
+
+networks:
+  rtc_net:
+    driver: bridge
+
+
